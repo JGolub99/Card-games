@@ -6,7 +6,11 @@
 
 int main(){
 
-    Cards::Deck myDeck(true);
-    myDeck.bottom(10);
+    Cards::Deck myDeck(false);
+    Cards::Hand myHand = myDeck.deal(5);
+    myHand.add(myDeck);
+    myHand.show();
+    myDeck.shuffle();
+    myDeck.top(5);
     return 0;
 }

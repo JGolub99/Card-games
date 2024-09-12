@@ -44,6 +44,7 @@ Cards::Deck::Deck(bool shuffled) {
         for(const auto my_value : AllValues){
             Card* pCard = new Card(my_value,my_suit);
             cards.push_back(pCard);
+            numberOfCards+=1;
         }
     }
     if(shuffled){
@@ -80,4 +81,43 @@ void Cards::Deck::shuffle(){
     std::mt19937 g(rd()); 
 
     std::shuffle(cards.begin(), cards.end(), g); 
+}
+
+
+Cards::Card* Cards::Deck::draw(){
+    Card* pCar = cards[0];
+    cards.erase(cards.begin());
+    numberOfCards--;
+    return pCar;
+}
+
+
+Cards::Hand Cards::Deck::deal(int mynumber){
+    Cards::Hand hand;
+    for(int i=0;i<mynumber;i++){
+        Card* drawnCard = this->draw();
+        hand.add(drawnCard);
+    }
+    return hand;
+}
+
+
+// HAND
+
+
+void Cards::Hand::add(Card* card){
+    cards.push_back(card);
+    numberOfCards+=1;
+}
+
+void Cards::Hand::add(Deck& myDeck){
+    Card* drawnCard = myDeck.draw();
+    cards.push_back(drawnCard);
+    numberOfCards+=1;
+}
+
+void Cards::Hand::show(){
+    for(auto card : cards){
+        card->show();
+    }
 }

@@ -19,6 +19,7 @@ class Card {
 private:
 
     friend class Deck;
+    friend class Hand;
 
     Card(Suit, Value);
     Card(Value, Suit);
@@ -30,6 +31,22 @@ private:
 
 };
 
+class Deck; //Forward declaration
+
+class Hand {
+public:
+    void add(Deck&);
+    void show();
+    
+private:
+    friend class Deck;
+
+    void add(Card*);
+    
+    std::vector<Card*> cards;
+    int numberOfCards = 0;
+};
+
 class Deck {
 public:
     Deck(bool shuffled = false);
@@ -37,9 +54,12 @@ public:
     void shuffle();
     void top(int);
     void bottom(int);
+    Card* draw();
+    Hand deal(int);
 
 private:
     std::vector<Card*> cards;
+    int numberOfCards = 0;
     static const int length = 51;
 };
 }
