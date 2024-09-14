@@ -34,8 +34,14 @@ class Deck; //Forward declaration
 
 class Hand {
 public:
-    void add(Deck&); // Add a card to the hand from the top of the deck
+    void add(Deck&, bool random = false); // Add a card to the hand from the top of the deck or randomly
+
     void add(Deck&, Value, Suit); // Add a specific card from the deck (if it is in the deck)
+
+    // ADD FUNCTIONALITY FOR DISCARDING CARDS TO A DECK/AN EMPTY DECK/A PILE
+    // ADD FUNCTIONALITY FOR COMBINING HANDS (overload +)
+    // ADD FUNCTIONALITY FOR TRADING CARDS BETWEEN HANDS
+
     void show();
     
 private:
@@ -52,6 +58,7 @@ public:
     Deck(bool shuffled = false);
     ~Deck();
     void shuffle();
+    void show(bool reverse = false);
     void top(int);
     void bottom(int);
     Hand deal(int); // Deal a hand of specified size
@@ -67,7 +74,8 @@ private:
     int numberOfCards = 0;
     static const int length = 51;
 
-    Card* draw(); // Draw a card from the top of the deck
+    Card* draw(bool random = false); // Draw a card from the top of the deck, or one at random
+
     Card* draw(Value,Suit); //For drawing a specific card
 };
 }

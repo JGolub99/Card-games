@@ -60,17 +60,41 @@ Cards::Deck::~Deck() {
 
 // Implement the show functions:
 
+void Cards::Deck::show(bool reverse){
+    if(reverse){
+        for (int i = numberOfCards - 1; i >= 0; --i) {
+            cards[i]->show();
+        }
+    }
+    else{
+        for(const auto card : cards){
+            card->show();
+        }
+    }
+}
+
 void Cards::Deck::top(int number){
-    for(int i = 0; i < number; i++){
-        cards[i]->show();
+    if(number>numberOfCards){
+        this->show();
+    }
+    else{
+        for(int i = 0; i < number; i++){
+            cards[i]->show();
+        }
     }
 }
 
 void Cards::Deck::bottom(int number){
-    int j = 0;
-    for(int i = length; j<number; i--){
-        cards[i]->show();
-        j++;
+
+    if(number>numberOfCards){
+        this->show(true);
+    }
+    else{
+        int j = 0;
+        for(int i = length; j<number; i--){
+            cards[i]->show();
+            j++;
+        }
     }
 }
 
@@ -84,9 +108,16 @@ void Cards::Deck::shuffle(){
 }
 
 
-Cards::Card* Cards::Deck::draw(){
-    Card* pCar = cards[0];
-    cards.erase(cards.begin());
+Cards::Card* Cards::Deck::draw(bool random){
+    int index = 0;
+    if(random){
+        std::random_device dev;
+        std::mt19937 rng(dev());
+        std::uniform_int_distribution<std::mt19937::result_type> dist6(0,numberOfCards-1);
+        index = dist6(rng);
+    }
+    Card* pCar = cards[index];
+    cards.erase(cards.begin()+index);
     numberOfCards--;
     return pCar;
 }
@@ -149,8 +180,8 @@ void Cards::Hand::add(Card* card){
     numberOfCards+=1;
 }
 
-void Cards::Hand::add(Deck& myDeck){
-    Card* drawnCard = myDeck.draw();
+void Cards::Hand::add(Deck& myDeck, bool random){
+    Card* drawnCard = myDeck.draw(random);
     cards.push_back(drawnCard);
     numberOfCards+=1;
 }
