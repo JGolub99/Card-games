@@ -1,8 +1,8 @@
 #include "cards.h"
 #include <iostream>
-#include <memory>
 #include <random> 
 #include <algorithm> 
+#include <stdexcept>
 
 // #define DEBUG
 
@@ -91,6 +91,21 @@ Cards::Card* Cards::Deck::draw(){
     return pCar;
 }
 
+Cards::Card* Cards::Deck::draw(Value myValue, Suit mySuit){
+    for (const auto cardP : cards){
+        if((*cardP).suit == mySuit && (*cardP).value == myValue){
+            // erase card from deck
+
+            auto it = std::find(cards.begin(), cards.end(), cardP);
+            cards.erase(it);
+
+            numberOfCards--;
+            return cardP;
+        }
+    }
+    throw std::runtime_error("Requested card is not in the deck.");
+}
+
 
 Cards::Hand Cards::Deck::deal(int mynumber){
     Cards::Hand hand;
@@ -101,6 +116,30 @@ Cards::Hand Cards::Deck::deal(int mynumber){
     return hand;
 }
 
+Cards::Hand Cards::Deck::deal(Suit mySuit){
+    Cards::Hand hand;
+    for(const auto myValue : AllValues){
+        Card* drawnCard = this->draw(myValue,mySuit);
+        hand.add(drawnCard);
+    }
+    return hand;
+}
+
+Cards::Hand Cards::Deck::deal(Value myValue){
+    Cards::Hand hand;
+    for(const auto mySuit : AllSuits){
+        Card* drawnCard = this->draw(myValue,mySuit);
+        hand.add(drawnCard);
+    }
+    return hand;
+}
+
+Cards::Hand Cards::Deck::deal(Value myValue, Suit mySuit){
+    Cards::Hand hand;
+    Card* drawnCard = this->draw(myValue,mySuit);
+    hand.add(drawnCard);
+    return hand;
+}
 
 // HAND
 
@@ -112,6 +151,12 @@ void Cards::Hand::add(Card* card){
 
 void Cards::Hand::add(Deck& myDeck){
     Card* drawnCard = myDeck.draw();
+    cards.push_back(drawnCard);
+    numberOfCards+=1;
+}
+
+void Cards::Hand::add(Deck& myDeck, Value myValue, Suit mySuit){
+    Card* drawnCard = myDeck.draw(myValue, mySuit);
     cards.push_back(drawnCard);
     numberOfCards+=1;
 }

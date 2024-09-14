@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include <memory>
 
 namespace Cards{
 
@@ -35,7 +34,8 @@ class Deck; //Forward declaration
 
 class Hand {
 public:
-    void add(Deck&);
+    void add(Deck&); // Add a card to the hand from the top of the deck
+    void add(Deck&, Value, Suit); // Add a specific card from the deck (if it is in the deck)
     void show();
     
 private:
@@ -54,12 +54,20 @@ public:
     void shuffle();
     void top(int);
     void bottom(int);
-    Card* draw();
-    Hand deal(int);
+    Hand deal(int); // Deal a hand of specified size
+    Hand deal(Suit); // Deal a hand of one suit
+    Hand deal(Value); // Deal a hand of one value
+    Hand deal(Value,Suit); // Deal a hand of just one card
 
 private:
+
+    friend class Hand;
+
     std::vector<Card*> cards;
     int numberOfCards = 0;
     static const int length = 51;
+
+    Card* draw(); // Draw a card from the top of the deck
+    Card* draw(Value,Suit); //For drawing a specific card
 };
 }
