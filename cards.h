@@ -15,6 +15,11 @@ static const char* suit_txt[] = {"Spades", "Diamonds", "Clubs", "Hearts"} ;
 
 class Card {
 
+public:
+    const Suit suit;
+    const Value value;
+    void show() const;
+
 private:
 
     friend class Deck;
@@ -23,10 +28,6 @@ private:
     Card(Suit, Value);
     Card(Value, Suit);
     ~Card();
-    void show();
-
-    Suit suit;
-    Value value;
 
 };
 
@@ -34,18 +35,20 @@ class Deck; //Forward declaration
 
 class Hand {
 public:
-    void add(Deck&, bool random = false); // Add a card to the hand from the top of the deck or randomly
 
+    void add(Deck&, bool random = false); // Add a card to the hand from the top of the deck or randomly
     void add(Deck&, Value, Suit); // Add a specific card from the deck (if it is in the deck)
 
     // ADD FUNCTIONALITY FOR DISCARDING CARDS TO A DECK/AN EMPTY DECK/A PILE
-    // ADD FUNCTIONALITY FOR COMBINING HANDS (overload +)
-    // ADD FUNCTIONALITY FOR TRADING CARDS BETWEEN HANDS
 
     void show();
     
 private:
     friend class Deck;
+    friend void Give(Hand&, Hand&, Value, Suit);
+    friend void Give(Hand&, Hand&);
+    friend void GiveRandom(Hand&, Hand&);
+    friend Hand operator+(Cards::Hand&, Cards::Hand&);
 
     void add(Card*);
     
@@ -75,7 +78,12 @@ private:
     static const int length = 51;
 
     Card* draw(bool random = false); // Draw a card from the top of the deck, or one at random
-
     Card* draw(Value,Suit); //For drawing a specific card
 };
+
+void Give(Hand&, Hand&, Value, Suit);
+void Give(Hand&, Hand&); // Top card
+void GiveRandom(Hand&, Hand&);
+
+Hand operator+(Hand&, Hand&);
 }

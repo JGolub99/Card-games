@@ -29,7 +29,7 @@ Cards::Card::~Card() {
 
 
 // Implement the show card function:
-void Cards::Card::show(){
+void Cards::Card::show() const {
 
     std::cout << rank_txt[value-1] << " of " << suit_txt[suit-1] << std::endl;
 }
@@ -196,4 +196,60 @@ void Cards::Hand::show(){
     for(auto card : cards){
         card->show();
     }
+}
+
+// Implement Give functionality
+
+void Cards::Give(Hand& hand1, Hand& hand2, Cards::Value myValue, Cards::Suit mySuit){
+    for(const auto cardP : hand1.cards){
+        if((*cardP).value == myValue && (*cardP).suit == mySuit){
+            hand2.add(cardP);
+            auto it = std::find(hand1.cards.begin(), hand1.cards.end(), cardP);
+            hand1.cards.erase(it);
+            hand1.numberOfCards--;
+            return;
+        }
+    }
+
+    std::cout << "Card not found!" << std::endl;
+}
+
+void Cards::Give(Hand& hand1, Hand& hand2){
+    if(hand1.numberOfCards == 0){
+        throw std::runtime_error("Hand is empty.");
+    }
+    hand2.add(hand1.cards[0]);
+    hand1.cards.erase(hand1.cards.begin());
+    hand1.numberOfCards--;
+}
+
+void Cards::GiveRandom(Hand& hand1, Hand& hand2){
+    if(hand1.numberOfCards == 0){
+        throw std::runtime_error("Hand is empty.");
+    }
+    int index;
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(0,hand1.numberOfCards-1);
+    index = dist6(rng);
+    hand2.add(hand1.cards[index]);
+    auto it = std::find(hand1.cards.begin(), hand1.cards.end(), hand1.cards[index]);
+    hand1.cards.erase(it);
+    hand1.numberOfCards--;
+}
+
+// Implement functionality for combining hands
+
+Cards::Hand Cards::operator+(Cards::Hand& hand1, Cards::Hand& hand2){
+    Cards::Hand newHand;
+    int numCards1 = hand1.numberOfCards;
+    int numCards2 = hand2.numberOfCards;
+
+    for(int i = 0; i<numCards1; i++){
+        Cards::Give(hand1,newHand);
+    }
+    for(int j = 0; j<numCards2; j++){
+        Cards::Give(hand2,newHand);
+    }  
+    return newHand;
 }
