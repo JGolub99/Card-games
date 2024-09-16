@@ -42,7 +42,7 @@ public:
     void discard(Deck&, Value, Suit);
     void discardAll(Deck&);
 
-    void show();
+    void show() const;
     
 private:
     friend class Deck;

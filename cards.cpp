@@ -240,7 +240,7 @@ void Cards::Hand::discardAll(Deck& myDeck){
     }
 }
 
-void Cards::Hand::show(){
+void Cards::Hand::show() const {
     for(auto card : cards){
         card->show();
     }
