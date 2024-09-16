@@ -39,16 +39,18 @@ void Cards::Card::show() const {
 
 // Implement the constructor:
 
-Cards::Deck::Deck(bool shuffled) {
-    for(const auto my_suit : AllSuits){
-        for(const auto my_value : AllValues){
-            Card* pCard = new Card(my_value,my_suit);
-            cards.push_back(pCard);
-            numberOfCards+=1;
+Cards::Deck::Deck(bool shuffled, bool empty) {
+    if(!empty){
+        for(const auto my_suit : AllSuits){
+            for(const auto my_value : AllValues){
+                Card* pCard = new Card(my_value,my_suit);
+                cards.push_back(pCard);
+                numberOfCards+=1;
+            }
         }
-    }
-    if(shuffled){
-        this->shuffle();
+        if(shuffled){
+            this->shuffle();
+        }
     }
 }
 
@@ -137,6 +139,14 @@ Cards::Card* Cards::Deck::draw(Value myValue, Suit mySuit){
     throw std::runtime_error("Requested card is not in the deck.");
 }
 
+void Cards::Deck::add(Card* myCard){
+    if(numberOfCards==length){
+        throw std::runtime_error("Deck is full.");
+    }
+    cards.push_back(myCard);
+    numberOfCards++;
+}
+
 
 Cards::Hand Cards::Deck::deal(int mynumber){
     Cards::Hand hand;
@@ -190,6 +200,44 @@ void Cards::Hand::add(Deck& myDeck, Value myValue, Suit mySuit){
     Card* drawnCard = myDeck.draw(myValue, mySuit);
     cards.push_back(drawnCard);
     numberOfCards+=1;
+}
+
+
+void Cards::Hand::discard(Deck& myDeck, bool random){
+    if(!random){
+        myDeck.add(cards[0]);
+        cards.erase(cards.begin());
+    }
+    else{
+        int index;
+        std::random_device dev;
+        std::mt19937 rng(dev());
+        std::uniform_int_distribution<std::mt19937::result_type> dist6(0,numberOfCards-1);
+        index = dist6(rng);
+        myDeck.add(cards[index]);
+        auto it = std::find(cards.begin(), cards.end(), cards[index]);
+        cards.erase(it);
+    }
+    numberOfCards--;
+}
+
+void Cards::Hand::discard(Deck& myDeck, Value myValue, Suit mySuit){
+    for(const auto cardP : cards){
+        if((*cardP).value == myValue && (*cardP).suit == mySuit){
+            myDeck.add(cardP);
+            auto it = std::find(cards.begin(), cards.end(), cardP);
+            cards.erase(it);
+            numberOfCards--;
+            return;
+        }
+    }
+}
+
+void Cards::Hand::discardAll(Deck& myDeck){
+    int count = numberOfCards;
+    for(int i=0; i<count; i++){
+        this->discard(myDeck);
+    }
 }
 
 void Cards::Hand::show(){

@@ -38,8 +38,9 @@ public:
 
     void add(Deck&, bool random = false); // Add a card to the hand from the top of the deck or randomly
     void add(Deck&, Value, Suit); // Add a specific card from the deck (if it is in the deck)
-
-    // ADD FUNCTIONALITY FOR DISCARDING CARDS TO A DECK/AN EMPTY DECK/A PILE
+    void discard(Deck&, bool random = false);
+    void discard(Deck&, Value, Suit);
+    void discardAll(Deck&);
 
     void show();
     
@@ -58,7 +59,7 @@ private:
 
 class Deck {
 public:
-    Deck(bool shuffled = false);
+    Deck(bool shuffled = false, bool empty = false);
     ~Deck();
     void shuffle();
     void show(bool reverse = false);
@@ -79,6 +80,8 @@ private:
 
     Card* draw(bool random = false); // Draw a card from the top of the deck, or one at random
     Card* draw(Value,Suit); //For drawing a specific card
+    
+    void add(Card*); // For adding a card pointer to the deck 
 };
 
 void Give(Hand&, Hand&, Value, Suit);
