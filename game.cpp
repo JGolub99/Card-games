@@ -1,7 +1,5 @@
 #include "game.h"
 #include <string>
-#include <initializer_list>
-#include <tuple>
 
 Player::Player(std::string myName, int startingPoints){
     name = myName;
