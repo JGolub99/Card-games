@@ -31,7 +31,7 @@ public:
     Game(std::vector<Player*>);
     virtual void play() = 0;
 
-private:
+protected:
     int numberOfPlayers = 0;
 
     void addPlayer(Player*);
