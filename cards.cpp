@@ -246,6 +246,14 @@ void Cards::Hand::show() const {
     }
 }
 
+Cards::Card* Cards::Hand::top() const {
+    return this->cards[0];
+}
+
+int Cards::Hand::getNumberOfCards() const {
+    return numberOfCards;
+}
+
 // Implement Give functionality
 
 void Cards::Give(Hand& hand1, Hand& hand2, Cards::Value myValue, Cards::Suit mySuit){
