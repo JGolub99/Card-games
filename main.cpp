@@ -15,7 +15,11 @@ int main(){
 
     Player player1("Jacob");
     Player player2("Lia");
+    Player player3("Sam");
+    Player player4("Iz");
     std::vector<Player*> players{&player1,&player2};
+    // std::vector<Player*> players{&player1,&player2,&player3,&player4};
     War myGame(players);
+    myGame.play();
     return 0;
 }
