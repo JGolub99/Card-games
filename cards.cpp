@@ -182,6 +182,10 @@ Cards::Hand Cards::Deck::deal(Value myValue, Suit mySuit){
     return hand;
 }
 
+Cards::Hand Cards::Deck::dealAll(){
+    return deal(numberOfCards);
+}
+
 // HAND
 
 
@@ -238,6 +242,12 @@ void Cards::Hand::discardAll(Deck& myDeck){
     for(int i=0; i<count; i++){
         this->discard(myDeck);
     }
+}
+
+void Cards::Hand::topToBottom(){
+    Card* frontCard = cards.front();
+    cards.erase(cards.begin());
+    cards.push_back(frontCard);
 }
 
 void Cards::Hand::show() const {

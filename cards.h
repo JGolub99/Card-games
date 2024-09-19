@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "war.h"
 
 namespace Cards{
 
@@ -42,6 +41,7 @@ public:
     void discard(Deck&, bool random = false);
     void discard(Deck&, Value, Suit);
     void discardAll(Deck&);
+    void topToBottom();
 
     void show() const;
     Card* top() const;
@@ -49,7 +49,6 @@ public:
 
 private:
     friend class Deck;
-    friend class WarGame::War;
     friend void Give(Hand&, Hand&, Value, Suit);
     friend void Give(Hand&, Hand&);
     friend void GiveRandom(Hand&, Hand&);
@@ -73,6 +72,7 @@ public:
     Hand deal(Suit); // Deal a hand of one suit
     Hand deal(Value); // Deal a hand of one value
     Hand deal(Value,Suit); // Deal a hand of just one card
+    Hand dealAll(); // Deal a hand from the entire deck
     static const int length = 51;
 
 private:
