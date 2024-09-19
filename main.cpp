@@ -1,5 +1,3 @@
-#include "cards.h"
-#include "game.h"
 #include "war.h"
 #include <iostream>
 
@@ -18,7 +16,6 @@ int main(){
     Player player3("Sam");
     Player player4("Iz");
     std::vector<Player*> players{&player1,&player2};
-    // std::vector<Player*> players{&player1,&player2,&player3,&player4};
     War myGame(players);
     myGame.play();
     return 0;
