@@ -22,6 +22,10 @@ void Player::leaveGame(){
     inGame = false;
 }
 
+bool Player::playing() const {
+    return inGame;
+}
+
 void Player::showHand() const {
     hand.show();
 }

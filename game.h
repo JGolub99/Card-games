@@ -6,15 +6,17 @@
 
 class Player{
 public:
-    std::string name;
-    Cards::Hand hand;
 
     Player(std::string,int startingPoints=0);
     void addPoints(int);
     void deductPoints(int);
     void leaveGame();
     void enterGame();
+    bool playing() const;
     void showHand() const;
+
+    std::string name;
+    Cards::Hand hand;
 
 private:
     int points = 0;
