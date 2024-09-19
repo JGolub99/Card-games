@@ -1,5 +1,7 @@
 #include "game.h"
 #include <string>
+#include <algorithm>
+#include <stdexcept>
 
 Player::Player(std::string myName, int startingPoints){
     name = myName;
@@ -31,8 +33,14 @@ void Player::showHand() const {
 }
 
 Game::Game(std::vector<Player*> myPlayers){
-    for(const auto player: myPlayers){;
-        this->addPlayer(player);
+    for(const auto player: myPlayers){
+        int cnt = std::count(players.begin(), players.end(), player); 
+        if(cnt==0){
+            this->addPlayer(player);
+        }
+        else{
+            throw std::runtime_error("Player cannot be registered in a game twice.");
+        }
     }
 }
 
