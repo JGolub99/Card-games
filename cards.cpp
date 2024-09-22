@@ -100,6 +100,10 @@ void Cards::Deck::bottom(int number){
     }
 }
 
+int Cards::Deck::getNumberOfCards() const {
+    return numberOfCards;
+}
+
 // Implement the shuffle function:
 
 void Cards::Deck::shuffle(){

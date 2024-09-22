@@ -68,6 +68,7 @@ public:
     void show(bool reverse = false);
     void top(int);
     void bottom(int);
+    int getNumberOfCards() const;
     Hand deal(int); // Deal a hand of specified size
     Hand deal(Suit); // Deal a hand of one suit
     Hand deal(Value); // Deal a hand of one value
