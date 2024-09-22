@@ -8,7 +8,14 @@ public:
     void play();
 
 private:
-   bool endCondition();
+    void playround();
+    void battle(Player*);
+    void discardSets(Player*);
+    void updatePlayerStatus(Player*);
+    void declareWinner();
+    bool endCondition();
 
-   static const int cardsPerPlayer = 7;
+    Cards::Deck pile = Cards::Deck(false,true);
+
+    static const int cardsPerPlayer = 7;
 };
