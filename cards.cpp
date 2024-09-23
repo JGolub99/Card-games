@@ -304,8 +304,6 @@ void Cards::Give(Hand& hand1, Hand& hand2, Cards::Value myValue, Cards::Suit myS
             return;
         }
     }
-
-    std::cout << "Card not found!" << std::endl;
 }
 
 void Cards::Give(Hand& hand1, Hand& hand2){
@@ -315,6 +313,18 @@ void Cards::Give(Hand& hand1, Hand& hand2){
     hand2.add(hand1.cards[0]);
     hand1.cards.erase(hand1.cards.begin());
     hand1.numberOfCards--;
+}
+
+void Cards::Give(Hand& hand1, Hand& hand2, Cards::Suit mySuit){
+    for(auto value : AllValues){
+        Give(hand1,hand2,value,mySuit);
+    }
+}
+
+void Cards::Give(Hand& hand1, Hand& hand2, Cards::Value myValue){
+    for(auto suit : AllSuits){
+        Give(hand1,hand2,myValue,suit);
+    }
 }
 
 void Cards::GiveRandom(Hand& hand1, Hand& hand2){

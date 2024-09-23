@@ -54,6 +54,8 @@ public:
 private:
     friend class Deck;
     friend void Give(Hand&, Hand&, Value, Suit);
+    friend void Give(Hand&, Hand&, Value);
+    friend void Give(Hand&, Hand&, Suit);
     friend void Give(Hand&, Hand&);
     friend void GiveRandom(Hand&, Hand&);
     friend Hand operator+(Cards::Hand&, Cards::Hand&);
@@ -94,6 +96,8 @@ private:
 };
 
 void Give(Hand&, Hand&, Value, Suit);
+void Give(Hand&, Hand&, Value); // Give all of one suit
+void Give(Hand&, Hand&, Suit); // Give all of one value
 void Give(Hand&, Hand&); // Top card
 void GiveRandom(Hand&, Hand&);
 
