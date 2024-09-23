@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 namespace Cards{
 
@@ -12,6 +13,8 @@ static const Value AllValues[] = {Ace,Two,Three,Four,Five,Six,Seven,Eight,Nine,T
 
 static const char* rank_txt[] = {"Ace", "Deuce", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" } ;
 static const char* suit_txt[] = {"Spades", "Diamonds", "Clubs", "Hearts"} ;
+
+Value convertValue(const std::string&);
 
 class Card {
 
@@ -46,6 +49,7 @@ public:
     void show() const;
     Card* top() const;
     int getNumberOfCards() const;
+    std::vector<Card*> getHand() const;
 
 private:
     friend class Deck;

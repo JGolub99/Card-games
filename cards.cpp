@@ -6,6 +6,26 @@
 
 // #define DEBUG
 
+Cards::Value Cards::convertValue(const std::string& str)
+{
+    if(str == "Ace") return Cards::Ace;
+    else if(str == "Deuce" || str == "Two") return Cards::Two;
+    else if(str == "Three") return Cards::Three;
+    else if(str == "Four") return Cards::Four;
+    else if(str == "Five") return Cards::Five;
+    else if(str == "Six") return Cards::Six;
+    else if(str == "Seven") return Cards::Seven;
+    else if(str == "Eight") return Cards::Eight;
+    else if(str == "Nine") return Cards::Nine;
+    else if(str == "Ten") return Cards::Ten;
+    else if(str == "Jack") return Cards::Jack;
+    else if(str == "Queen") return Cards::Queen;
+    else if(str == "King") return Cards::King;
+    else {
+        throw std::runtime_error("Not a valid card value.");
+    }
+}
+
 // CARD
 
 // Implement the constructors:
@@ -266,6 +286,10 @@ Cards::Card* Cards::Hand::top() const {
 
 int Cards::Hand::getNumberOfCards() const {
     return numberOfCards;
+}
+
+std::vector<Cards::Card*> Cards::Hand::getHand() const {
+    return cards;
 }
 
 // Implement Give functionality
