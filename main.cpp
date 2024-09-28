@@ -1,4 +1,5 @@
 #include "war.h"
+#include "gofish.h"
 #include <iostream>
 
 /*
@@ -15,8 +16,8 @@ int main(){
     Player player2("Lia");
     Player player3("Sam");
     Player player4("Iz");
-    std::vector<Player*> players{&player1,&player2};
-    War myGame(players);
+    std::vector<Player*> players{&player1,&player2,&player3};
+    GoFish myGame(players);
     myGame.play();
     return 0;
 }
