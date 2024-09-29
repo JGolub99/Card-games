@@ -3,6 +3,7 @@
 #include <string>
 #include "cards.h"
 
+#define DEBUG ;
 
 class Player{
 public:
