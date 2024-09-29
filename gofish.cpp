@@ -5,7 +5,6 @@
 #include <string>
 #include <cstring>
 
-#define DEBUG
 
 GoFish::GoFish(std::vector<Player*> myPlayers) : Game(myPlayers) {
 
@@ -14,6 +13,7 @@ GoFish::GoFish(std::vector<Player*> myPlayers) : Game(myPlayers) {
     deck.shuffle();
     for(auto player: myPlayers){
         player->hand = deck.deal(cardsPerPlayer);
+        (player->hand).orderByValue();
         player->enterGame();
     }
 }
@@ -127,8 +127,12 @@ void GoFish::battle(Player* myPlayer){
     // Implement check for typos.
     if(!playerExists){
         std::cout << "That player is not in the game!" << std::endl;
+        std::cout << std::endl;
         battle(myPlayer);
     }
+
+    // Reorder cards
+    (myPlayer->hand).orderByValue();
 
     // If the player won the battle or they drew the desired card from the deck, then they get to play again.
     if(playerHasValue||drewRequestedValue){

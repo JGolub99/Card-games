@@ -45,6 +45,7 @@ public:
     void discard(Deck&, Value, Suit);
     void discardAll(Deck&);
     void topToBottom();
+    void orderByValue();
 
     void show() const;
     Card* top() const;

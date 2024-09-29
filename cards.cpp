@@ -292,6 +292,21 @@ std::vector<Cards::Card*> Cards::Hand::getHand() const {
     return cards;
 }
 
+void Cards::Hand::orderByValue() {
+    bool recur = false;
+    for(int i = 0; i < numberOfCards-1; i++){
+        if(cards[i]->value > cards[i+1]->value){
+            std::iter_swap(cards.begin() + i, cards.begin() + i+1);
+            recur = true;
+            break;
+        }
+    }
+
+    if(recur){
+        this->orderByValue();
+    }
+}
+
 // Implement Give functionality
 
 void Cards::Give(Hand& hand1, Hand& hand2, Cards::Value myValue, Cards::Suit mySuit){
