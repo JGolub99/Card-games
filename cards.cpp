@@ -164,7 +164,7 @@ Cards::Card* Cards::Deck::draw(Value myValue, Suit mySuit){
 }
 
 void Cards::Deck::add(Card* myCard){
-    if(numberOfCards==length){
+    if(numberOfCards==length+1){
         throw std::runtime_error("Deck is full.");
     }
     cards.push_back(myCard);
