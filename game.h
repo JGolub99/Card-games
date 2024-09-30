@@ -15,6 +15,7 @@ public:
     void enterGame();
     bool playing() const;
     void showHand() const;
+    int showPoints() const;
 
     std::string name;
     Cards::Hand hand;

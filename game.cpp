@@ -9,7 +9,7 @@ Player::Player(std::string myName, int startingPoints){
 }
 
 void Player::addPoints(int number){
-    points+=points;
+    points+=number;
 }
 
 void Player::deductPoints(int number){
@@ -30,6 +30,10 @@ bool Player::playing() const {
 
 void Player::showHand() const {
     hand.show();
+}
+
+int Player::showPoints() const {
+    return points;
 }
 
 Game::Game(std::vector<Player*> myPlayers){
