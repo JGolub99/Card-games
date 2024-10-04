@@ -10,7 +10,7 @@ public:
 private:
     void playround();
     void battle(Player*);
-    void discardSets(Player*);
+    void discardSets(Player*,Cards::Value);
     void updatePlayerStatus(Player*);
     void declareWinner();
     bool endCondition();

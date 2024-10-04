@@ -15,6 +15,10 @@ GoFish::GoFish(std::vector<Player*> myPlayers) : Game(myPlayers) {
         player->hand = deck.deal(cardsPerPlayer);
         (player->hand).orderByValue();
         player->enterGame();
+        // Discard any initial sets
+        for(auto const value : Cards::AllValues){
+            discardSets(player,value);
+        }
     }
 }
 
@@ -32,15 +36,13 @@ void GoFish::play() {
 void GoFish::playround() {
     for(auto player : players){
         if(player->playing()){
-            battle(player); // choose an opponent, and take their cards or go fish. Update opponent.
-            discardSets(player); // discard any sets to the pile, and add points
-            updatePlayerStatus(player); // if player is out of cards and deck is empty, leave game
+            battle(player); // choose an opponent, and take their cards or go fish. Update opponent. Discard sets and add points. Update player.
         }
     }
 }
 
 void GoFish::battle(Player* myPlayer){
-    std::cout << myPlayer->name << "'s turn: " << std::endl;
+    std::cout << myPlayer->name << "'s turn (" << myPlayer->showPoints() << " points): " << std::endl;
     myPlayer->showHand();
     std::cout << std::endl;
 
@@ -97,28 +99,26 @@ void GoFish::battle(Player* myPlayer){
                     std::cout << "Yeah boi" << std::endl << std::endl;
                     playerHasValue = true;
                     Cards::Give(player->hand,myPlayer->hand,input_value);
+                    discardSets(myPlayer,input_value);
+                    updatePlayerStatus(myPlayer);
 
                     // Update opponent
-                    if((player->hand).getNumberOfCards() == 0){
-                        if(deck.getNumberOfCards()>0){
-                            (player->hand).add(deck);
-                        }
-                        else{
-                            player->leaveGame();
-                        }
-                    }
+                    updatePlayerStatus(player);
 
                     break;
                 }
             }
             if(!playerHasValue){
                 std::cout << "Go fish, bitch!" << std::endl << std::endl;
-
-                Cards::Hand newHand = deck.deal(1);
-                if(newHand.top()->value == input_value){
-                    drewRequestedValue = true;
+                if(deck.getNumberOfCards() > 0){  // Can only draw a card if the deck is not empty
+                    Cards::Hand newHand = deck.deal(1);
+                    if(newHand.top()->value == input_value){
+                        drewRequestedValue = true;
+                    }
+                    myPlayer->hand = myPlayer->hand + newHand;
+                    discardSets(myPlayer,newHand.top()->value);
+                    updatePlayerStatus(myPlayer);
                 }
-                myPlayer->hand = myPlayer->hand + newHand;
             }
             break;
         }
@@ -135,23 +135,59 @@ void GoFish::battle(Player* myPlayer){
     (myPlayer->hand).orderByValue();
 
     // If the player won the battle or they drew the desired card from the deck, then they get to play again.
-    if(playerHasValue||drewRequestedValue){
+    if((playerHasValue||drewRequestedValue)&&myPlayer->playing()){
         battle(myPlayer);
     }
 }
 
-void GoFish::discardSets(Player* myPlayer){
+void GoFish::discardSets(Player* myPlayer, Cards::Value myValue){
 
+    int valueCount = 0;
+    for(auto const card : (myPlayer->hand).getHand()){
+
+        if(card->value == myValue){
+            valueCount++;
+        }
+        if(valueCount == 4){
+            (myPlayer->hand).discard(pile,myValue,Cards::Spades);
+            (myPlayer->hand).discard(pile,myValue,Cards::Diamonds);
+            (myPlayer->hand).discard(pile,myValue,Cards::Clubs);
+            (myPlayer->hand).discard(pile,myValue,Cards::Hearts);
+            myPlayer->addPoints(1);
+            break;
+        }
+
+    }
+    
 }
 
 void GoFish::updatePlayerStatus(Player* myPlayer){
-
+    if((myPlayer->hand).getNumberOfCards() == 0){
+        if(deck.getNumberOfCards()>0){
+            (myPlayer->hand).add(deck);
+        }
+        else{
+            myPlayer->leaveGame();
+        }
+    }
 }
 
 void GoFish::declareWinner(){
 
+    // NEED TO ADD FUNCIONALITY FOR DELCARING DRAWS
+
+    Player* winner;
+    int maxPoints = 0;
+    for(auto const player : players){
+        if(player->showPoints() > maxPoints){
+            maxPoints = player->showPoints();
+            winner = player;
+        }
+    }
+
+    std::cout << winner->name << " wins!" << std::endl;
 }
 
 bool GoFish::endCondition() {
-    return pile.getNumberOfCards() == Cards::Deck::length;
+    return pile.getNumberOfCards() == Cards::Deck::length + 1;
 }
