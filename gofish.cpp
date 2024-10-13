@@ -174,18 +174,29 @@ void GoFish::updatePlayerStatus(Player* myPlayer){
 
 void GoFish::declareWinner(){
 
-    // NEED TO ADD FUNCIONALITY FOR DELCARING DRAWS
-
-    Player* winner;
+    std::vector<Player*> winners;
     int maxPoints = 0;
+
     for(auto const player : players){
-        if(player->showPoints() > maxPoints){
-            maxPoints = player->showPoints();
-            winner = player;
+        int points = player->showPoints();
+        std::cout << player->name << ": " << points << " points" << std::endl;
+        if(points > maxPoints){
+            maxPoints = points;
+
+            winners.clear();
+            winners.push_back(player);
+        }
+        else if(points == maxPoints){
+
+            winners.push_back(player);
         }
     }
 
-    std::cout << winner->name << " wins!" << std::endl;
+
+    std::cout << std::endl;
+    for(auto const winner : winners){
+        std::cout << winner->name << " wins!" << std::endl;
+    }
 }
 
 bool GoFish::endCondition() {

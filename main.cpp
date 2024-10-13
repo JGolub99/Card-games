@@ -16,7 +16,7 @@ int main(){
     Player player2("Lia");
     Player player3("Sam");
     Player player4("Iz");
-    std::vector<Player*> players{&player1,&player2,&player3};
+    std::vector<Player*> players{&player1,&player2,&player3,&player4};
     GoFish myGame(players);
     myGame.play();
     return 0;
