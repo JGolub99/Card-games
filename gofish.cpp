@@ -87,6 +87,12 @@ void GoFish::battle(Player* myPlayer){
         return battle(myPlayer);
     }
 
+    if(myPlayer->name == input_name){
+        std::cout << "You cannot request a card from yourself you donut!" << std::endl;
+        std::cout << std::endl;
+        battle(myPlayer);  
+    }
+
     bool playerExists = false;
     bool playerHasValue = false;
     bool drewRequestedValue = false;
